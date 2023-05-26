@@ -1,0 +1,10 @@
+{
+    "name": "@flexidb/dockersol",
+    "version": "0.0.0",
+    "private": true,
+    "dependencies": {
+        "@types/dockerode": "^3.3.18",
+        "dockerode": "^3.3.5",
+        "execa": "^7.1.1"
+    }
+}

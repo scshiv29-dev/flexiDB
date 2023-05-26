@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dock-down": "turbo run dock-down",
+    "dock-nuke": "turbo run dock-nuke",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "dx": "turbo run dx",
+    "seed": "turbo run seed"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.9.7",
+    "autoprefixer": "^10.4.14",
+    "dotenv-cli": "^7.2.1",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "workspace:*",
+    "postcss": "^8.4.23",
+    "prettier": "^2.5.1",
+    "tailwindcss": "^3.3.2",
+    "turbo": "^1.9.7"
+  },
+  "packageManager": "pnpm@7.15.0",
+  "name": "flexidb"
+}

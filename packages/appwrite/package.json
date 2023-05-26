@@ -1,0 +1,19 @@
+{
+    "name": "@flexidb/appwrite",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "appwrite-up": "docker compose up -d || docker-compose up -d",
+        "appwrite-nuke": "docker compose down --volumes --remove-orphans || docker-compose down --volumes --remove-orphans",
+        "appwrite-logs": "docker compose logs -f --tail=100 || docker-compose logs -f --tail=100",
+        "appwrite-down": "docker compose down",
+        "appwrite-seed":"node seed.js"
+    },
+    "dependencies": {
+        "@types/node": "^17.0.45",
+        "appwrite": "^11.0.0",
+        "dotenv": "^16.0.3",
+        "nanoid": "^4.0.2",
+        "node-appwrite": "^9.0.0"
+    }
+}

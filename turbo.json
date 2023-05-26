@@ -1,0 +1,42 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "pipeline": {
+    "@flexidb/appwrite#appwrite-up":{
+      "cache": false
+    },
+    "@flexidb/appwrite#appwrite-nuke":{
+      "cache": false
+    },
+    "@flexidb/appwrite#appwrite-down":{
+      "cache": false
+    },
+    "@flexidb/appwrite#appwrite-seed":{
+      "cache": false
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
+
+    },
+
+    "lint": {},
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "dock-down":{
+      "cache":false,
+      "dependsOn": ["@flexidb/appwrite#appwrite-down"]
+    },
+    "dock-nuke":{
+      "cache": false,
+      "dependsOn": ["@flexidb/appwrite#appwrite-nuke"]
+    },
+    "seed":{
+      "cache": false,
+      "dependsOn": ["@flexidb/appwrite#appwrite-seed"]
+    }
+
+  }
+}
