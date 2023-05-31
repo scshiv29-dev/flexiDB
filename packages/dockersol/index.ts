@@ -1,52 +1,89 @@
 import Docker from 'dockerode';
+import { nanoid } from 'nanoid';
+import { findOpenPort } from '@flexidb/execa';
+import type { DBInfo ,EnvVariable} from './types';
+import { createDatabase } from '@flexidb/appwrite';
 
 const docker = new Docker();
 
-// Function to fetch Docker images
-async function fetchImages(): Promise<Docker.ImageInfo[]> {
-  const images = await docker.listImages();
-  return images;
-}
+export async function pullAndCreateContainer(
+  dbInfo: {
+    name: string;
+    dockerImage: string;
+    tag: string;
+    ENV: EnvVariable[];
+    PORT: number;
+  },
+): Promise<string> {
+  const { dockerImage, tag, ENV, PORT } = dbInfo;
+  const selectedTag = tag; // Select the first tag
+  console.log(`Selected tag: ${selectedTag}`);
+  console.log(`Pulling image: ${dockerImage}:${selectedTag}`);
+  await new Promise<void>((resolve, reject) => {
+    docker.pull(`${dockerImage}:${selectedTag}`, (error: any, stream: any) => {
+      if (error) {
+        reject(error);
+        return;
+      }
 
-// Function to create and run a Docker container from an image
-async function createAndRunContainer(
-  imageName: string,
-  containerName: string,
-  command: string[]
-): Promise<Docker.Container> {
+      docker.modem.followProgress(stream, (progressError, output) => {
+        if (progressError) {
+          reject(progressError);
+        } else {
+          resolve();
+        }
+      });
+    });
+  });
+  console.log(`Successfully pulled image: ${dockerImage}:${selectedTag}`);
+
+  const openPort = await findOpenPort(PORT,PORT+15);
+  if (!openPort) {
+    throw new Error('No open ports available.');
+  }
+
+  const envValues: string[] = [];
+  for (const envKey of ENV) {
+    const envValue = nanoid();
+    envValues.push(`${envKey}=${envValue}`);
+  }
+
   const container = await docker.createContainer({
-    Image: imageName,
-    name: containerName,
-    Cmd: command,
-    Tty: true,
+    Image: `${dockerImage}:${selectedTag}`,
+    name: dbInfo.name,
+    Env: envValues,
+    HostConfig: {
+      PortBindings: {
+        [`${PORT}/tcp`]: [{ HostPort: openPort.toString() }],
+      },
+    },
   });
 
   await container.start();
-  return container;
+  const containerId = container.id;
+  const dbres=await createDatabase(dbInfo.name,dbInfo.dockerImage,dbInfo.tag,dbInfo.ENV,containerId)
+  return dbres.$id;
+
 }
 
-// Function to fetch logs from a container
-async function fetchContainerLogs(containerId: string): Promise<string> {
+
+export async function getContainerLogs(containerId: string): Promise<string> {
   const container = docker.getContainer(containerId);
-  const logs = await container.logs({ stdout: true, stderr: true });
-  return logs.toString('utf-8');
+  const logs = await container.logs({
+    stdout: true,
+    stderr: true,
+    timestamps: true,
+  });
+
+  return logs.toString();
 }
 
-// Function to stop a container
-async function stopContainer(containerId: string): Promise<void> {
+export async function stopContainer(containerId: string): Promise<void> {
   const container = docker.getContainer(containerId);
   await container.stop();
 }
 
-// Function to get the status of a container
-async function getContainerStatus(containerId: string): Promise<string> {
+export async function deleteContainer(containerId: string): Promise<void> {
   const container = docker.getContainer(containerId);
-  const containerInfo = await container.inspect();
-  return containerInfo.State.Status;
+  await container.remove();
 }
-
-// Function to remove a container
-async function removeContainer(containerId: string): Promise<void> {
-    const container = docker.getContainer(containerId);
-    await container.remove();
-    }

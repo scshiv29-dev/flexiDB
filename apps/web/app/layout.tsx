@@ -1,3 +1,6 @@
+import { Header } from '@flexidb/ui';
+import './globals.css';
+import {AuthProvider} from "@flexidb/ui"
 export default function RootLayout({
   children,
 }: {
@@ -5,7 +8,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+     <AuthProvider>
+      <body>
+      <Header  />
+        {children}
+        </body>
+        </AuthProvider>
     </html>
   );
 }

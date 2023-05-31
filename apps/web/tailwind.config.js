@@ -1,1 +1,1 @@
-module.exports = require("@flexidb/config/tailwind.config");
+module.exports = require("@flexidb/config/tailwind.config.js");

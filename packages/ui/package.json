@@ -16,5 +16,11 @@
     "react": "^17.0.2",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "@flexidb/appwrite": "workspace:*",
+    "@flexidb/dockersol": "workspace:*",
+    "lucide-react": "^0.224.0",
+    "nanoid": "^4.0.2"
   }
 }

@@ -1,0 +1,9 @@
+{
+  "name": "@flexidb/execa",
+  "version": "0.0.0",
+  "main": "index.ts",
+  "private": true,
+  "dependencies": {
+    "execa": "^7.1.1"
+  }
+}
