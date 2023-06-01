@@ -4,6 +4,7 @@
   "main": "index.ts",
   "private": true,
   "dependencies": {
-    "execa": "^7.1.1"
+    "execa": "^7.1.1",
+    "portastic": "^1.0.1"
   }
 }

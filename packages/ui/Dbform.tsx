@@ -18,7 +18,7 @@ interface EnvVariable {
 const DbForm: React.FC<DbFormProps> = ({ name, tags, env ,port}) => {
   const [formValues, setFormValues] = useState({
     tag: '',
-    name: '',
+    name: nanoid(14),
     type: name,
     envVariables: env.map((envVar) => ({ name: envVar, value: nanoid(14) })) as EnvVariable[],
   });
@@ -70,6 +70,8 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env ,port}) => {
     }
 
     const { tag, name, type, envVariables } = formValues;
+    console.log(name,tag,type,envVariables,port);
+    
     fetch('/db/new/api', {
       method: 'POST',
       headers: {
@@ -97,7 +99,7 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env ,port}) => {
             id="name"
             name="name"
             value={formValues.name}
-            onChange={handleInputChange}
+            readOnly
             className="appearance-none w-full bg-dark border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:border-purple-500"
           />
         </div>

@@ -1,23 +1,27 @@
-import {execa }from 'execa';
+import net from 'net';
 
 export async function findOpenPort(startPort: number, endPort: number): Promise<number> {
   for (let port = startPort; port <= endPort; port++) {
+    const server = net.createServer();
+
     try {
-      await execa('lsof', ['-i', `:${port}`]);
+      await new Promise<void>((resolve, reject) => {
+        server.listen(port);
+        server.on('listening', () => {
+          server.close();
+          resolve();
+        });
+        server.on('error', (error) => {
+          server.close();
+          reject(error);
+        });
+      });
+
+      return port;
     } catch (error) {
-      return port; // Port is not in use, return it
+      // Ignore error and continue to next port
     }
   }
+
   throw new Error('No open ports available');
 }
-
-const startPort = 1100;
-const endPort = 9000;
-
-findOpenPort(startPort, endPort)
-  .then((port) => {
-    console.log(`Open port found: ${port}`);
-  })
-  .catch((error) => {
-    console.error(error.message);
-  });

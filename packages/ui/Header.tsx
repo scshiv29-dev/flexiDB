@@ -28,7 +28,9 @@ export function Header() {
               />
             </svg>
           </span>
+          <Link href="/">
           <span className="font-bold">FlexiDB</span>
+          </Link>
         </div>
         <div className="hidden grow items-start lg:flex">
 

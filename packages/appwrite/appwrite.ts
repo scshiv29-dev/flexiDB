@@ -26,9 +26,9 @@ export const getDatabases=async ()=>{
     return promise;
 }
 
-export const createDatabase=async (name: string, type: string, tag:string,env:EnvVariable[],containerId:string)=>{
+export const createDatabase=async (name: string, type: string, tag:string,containerId:string)=>{
 
-    const promise = await database.createDocument("appwrite-flexiDB","flexiDB-databses",nanoid(),{"name":name,"type":type,"env":env,"tag":tag,"containerId":containerId});
+    const promise = await database.createDocument("appwrite-flexiDB","flexiDB-databses",nanoid(),{"name":name,"type":type,"tag":tag,"containerId":containerId});
     console.log(promise);
     return promise;
 }

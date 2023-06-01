@@ -37,21 +37,18 @@ export async function pullAndCreateContainer(
   });
   console.log(`Successfully pulled image: ${dockerImage}:${selectedTag}`);
 
-  const openPort = await findOpenPort(PORT,PORT+15);
+  const openPort = await findOpenPort(PORT,PORT+100);
   if (!openPort) {
     throw new Error('No open ports available.');
   }
 
-  const envValues: string[] = [];
-  for (const envKey of ENV) {
-    const envValue = nanoid();
-    envValues.push(`${envKey}=${envValue}`);
-  }
-
+ 
+  console.log(openPort);
+  
   const container = await docker.createContainer({
     Image: `${dockerImage}:${selectedTag}`,
     name: dbInfo.name,
-    Env: envValues,
+    Env: ENV.map((env) => `${env.name}=${env.value}`),
     HostConfig: {
       PortBindings: {
         [`${PORT}/tcp`]: [{ HostPort: openPort.toString() }],
@@ -61,7 +58,7 @@ export async function pullAndCreateContainer(
 
   await container.start();
   const containerId = container.id;
-  const dbres=await createDatabase(dbInfo.name,dbInfo.dockerImage,dbInfo.tag,dbInfo.ENV,containerId)
+  const dbres=await createDatabase(dbInfo.name,dbInfo.dockerImage,dbInfo.tag,containerId)
   return dbres.$id;
 
 }
@@ -86,4 +83,17 @@ export async function stopContainer(containerId: string): Promise<void> {
 export async function deleteContainer(containerId: string): Promise<void> {
   const container = docker.getContainer(containerId);
   await container.remove();
+}
+
+export async function getContainerStatus(containerNameOrId: string): Promise<string | undefined> {
+  try {
+    const docker = new Docker();
+    const container = docker.getContainer(containerNameOrId);
+
+    const containerInfo = await container.inspect();
+    return containerInfo.State?.Status;
+  } catch (error) {
+    console.error('Error retrieving container status:', error);
+    return undefined;
+  }
 }
