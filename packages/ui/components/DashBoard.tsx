@@ -9,6 +9,7 @@ export default function DashBoard() {
 
   useEffect(() => {
     getDatabases().then(res => setDblist(res.documents));
+
   }, []);
 
   return (
@@ -22,13 +23,14 @@ export default function DashBoard() {
           <Plus size={30} className="cursor-pointer" onClick={() => { window.location.href = "/db"; }} />
         </div>
       </div>
-
+  
       <div className="flex flex-wrap space-x-4">
         {dblist?.map((db: any) => (
-          <DBstat name={db.name} type={db.type} tag={db.tag} containerId={db.containerId} />
+          <DBstat key={db.$id} name={db.name} type={db.type} tag={db.tag} containerId={db.containerId} id={db.$id}/>
         ))}
       </div>
-      <div className="divider"></div>
+      <div className="divider">
+      </div>
     </div>
   );
 }

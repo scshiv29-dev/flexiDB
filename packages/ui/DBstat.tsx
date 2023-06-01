@@ -58,7 +58,11 @@ export default function DBstat(dbinfo: any) {
           <p className="text-xs text-base-900 max-h-20 overflow-hidden text-ellipsis">
             <span className="font-bold">Container ID:</span> {dbinfo.containerId}
           </p>
-          <button className="btn btn-primary mt-4 hover:btn-secondary">Manage</button>
+          <button 
+          onClick={() => {
+            window.location.href = `/db/${dbinfo.id}`;
+          }}
+          className="btn btn-primary mt-4 hover:btn-secondary">Manage</button>
         </div>
       </div>
     </div>

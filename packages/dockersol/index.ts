@@ -97,3 +97,17 @@ export async function getContainerStatus(containerNameOrId: string): Promise<str
     return undefined;
   }
 }
+
+export async function getContainerInfo(containerId:string):Promise<any|undefined>{
+  try {
+    const docker = new Docker();
+    const container = docker.getContainer(containerId);
+
+    const containerInfo = await container.inspect();
+    return containerInfo;
+  } catch (error) {
+    console.error('Error retrieving container status:', error);
+    return undefined;
+  }
+
+}

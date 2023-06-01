@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
-
+import { DatabaseIcon } from 'lucide-react';
 
 interface DbFormProps {
   name: string;
   tags: string[];
   env: string[];
-  port:number;
+  port: number;
 }
 
 interface EnvVariable {
@@ -15,13 +15,14 @@ interface EnvVariable {
   value: string;
 }
 
-const DbForm: React.FC<DbFormProps> = ({ name, tags, env ,port}) => {
+const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
   const [formValues, setFormValues] = useState({
     tag: '',
     name: nanoid(14),
     type: name,
     envVariables: env.map((envVar) => ({ name: envVar, value: nanoid(14) })) as EnvVariable[],
   });
+  const [success, setSuccess] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -70,26 +71,45 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env ,port}) => {
     }
 
     const { tag, name, type, envVariables } = formValues;
-    console.log(name,tag,type,envVariables,port);
-    
+    console.log(name, tag, type, envVariables, port);
+
     fetch('/db/new/api', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         name,
         tag,
         type,
         envVariables,
-        port
+        port,
       }),
-    })
+    }).then((res) => {
+      res.json().then((data) => console.log(data));
+      if (res.status === 200) {
+        setSuccess(true);
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 5000);
+      } else {
+        alert('Something went wrong');
+      }
+    });
   };
 
   return (
     <div className="flex justify-center">
       <form className="w-full max-w-md" onSubmit={handleSubmit}>
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <span className="font-bold">Success!</span>
+            <span className="block sm:inline"> Your database has been deployed.</span>
+            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+              <DatabaseIcon  />
+            </span>
+          </div>
+        )}
         <div className="mb-4">
           <label htmlFor="name" className="block text-amber-500 font-bold mb-2">
             Name:
@@ -140,20 +160,19 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env ,port}) => {
             Environment Variables
           </label>
           {formValues.envVariables.map((envVar, index) => (
-            <>
-            <label htmlFor="env" className="block text-amber-500 font-bold mb-2">
-           {envVar.name} :
-          </label>
-            <input
-              key={index}
-              type="text"
-              id={`env-${index}`}
-              name={`env-${index}`}
-              value={envVar.value}
-              onChange={(e) => handleEnvInputChange(index, e)}
-              className="appearance-none w-full bg-dark border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:border-purple-500"
-            />
-            </>
+            <div key={index}>
+              <label htmlFor={`env-${index}`} className="block text-amber-500 font-bold mb-2">
+                {envVar.name}:
+              </label>
+              <input
+                type="text"
+                id={`env-${index}`}
+                name={`env-${index}`}
+                value={envVar.value}
+                onChange={(e) => handleEnvInputChange(index, e)}
+                className="appearance-none w-full bg-dark border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:border-purple-500"
+              />
+            </div>
           ))}
         </div>
         <div className="flex items-center justify-center">
@@ -165,7 +184,6 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env ,port}) => {
           </button>
         </div>
       </form>
-      
     </div>
   );
 };
