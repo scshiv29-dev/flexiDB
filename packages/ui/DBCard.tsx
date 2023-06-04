@@ -4,7 +4,7 @@ import React from 'react'
 import Link from "next/link"
 import {useRouter} from "next/navigation"
 
-export function DBCard({dbinfo}:{dbinfo: {
+export default function DBCard({dbinfo}:{dbinfo: {
   name: string;
   dockerImage: string;
   tags: string[];

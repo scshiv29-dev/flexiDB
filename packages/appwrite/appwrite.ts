@@ -41,7 +41,7 @@ export const deleteDatabase=async (id: string)=>{
 
 export const getDatabase=async (id: string)=>{
     const promise = await database.getDocument("appwrite-flexiDB","flexiDB-databses",id);
-    
+        
     return promise;
 }
 

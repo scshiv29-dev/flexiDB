@@ -75,6 +75,17 @@ export async function getContainerLogs(containerId: string): Promise<string> {
   return logs.toString();
 }
 
+export async function restartContainer(containerId: string): Promise<void> {
+  const container = docker.getContainer(containerId);
+  await container.restart();
+}
+
+export async function startContainer(containerId: string): Promise<void> {
+  const container = docker.getContainer(containerId);
+  await container.start();
+}
+
+
 export async function stopContainer(containerId: string): Promise<void> {
   const container = docker.getContainer(containerId);
   await container.stop();
@@ -110,4 +121,34 @@ export async function getContainerInfo(containerId:string):Promise<any|undefined
     return undefined;
   }
 
+}
+
+
+export async function changeContainerEnvVariable(containerId: string, key: string, value: string): Promise<void> {
+  const container = docker.getContainer(containerId);
+  const containerInfo = await container.inspect();
+
+  const env = containerInfo.Config.Env || [];
+  const envIndex = env.findIndex((item) => item.startsWith(`${key}=`));
+
+  if (envIndex !== -1) {
+    env[envIndex] = `${key}=${value}`;
+  } else {
+    env.push(`${key}=${value}`);
+  }
+
+  await container.update({ Env: env });
+}
+
+export async function getContainerEnvVariables(containerId: string): Promise<{ [key: string]: string }> {
+  const container = docker.getContainer(containerId);
+  const containerInfo = await container.inspect();
+  const envVariables: { [key: string]: string } = {};
+
+  for (const env of containerInfo.Config.Env) {
+    const [key, value] = env.split('=');
+    envVariables[key] = value;
+  }
+
+  return envVariables;
 }
