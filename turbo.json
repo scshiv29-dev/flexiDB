@@ -1,6 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": ["**/.env.*local",".env"],
+  "globalEnv": [
+    "APPWRITE_URL",
+    "APPWRITE_PROJECT_ID",
+    "APPWRITE_API_KEY"
+  ]
+  ,
   "pipeline": {
     "@flexidb/appwrite#appwrite-up":{
       "cache": false
