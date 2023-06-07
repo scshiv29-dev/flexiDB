@@ -73,8 +73,12 @@ export async function PUT(   request: Request,
     console.log(ENV)
     if (ENV){
         const containerId=db.containerId;
-        const d=changeContainerEnvVariable(containerId,ENV.key,ENV.value);
-        console.log(d)
-        return new Response(JSON.stringify(d))
+        Object.entries(ENV).forEach(async ([key, value])=>{
+
+            await changeContainerEnvVariable(containerId,key,ENV[key])
+        })
+        return new Response(JSON.stringify({
+            status:"success"
+        }))
     }
 }

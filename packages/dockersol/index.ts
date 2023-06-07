@@ -123,22 +123,38 @@ export async function getContainerInfo(containerId:string):Promise<any|undefined
 
 }
 
-
 export async function changeContainerEnvVariable(containerId: string, key: string, value: string): Promise<void> {
-  const container = docker.getContainer(containerId);
-  const containerInfo = await container.inspect();
+  console.log("change env",key,value)
+  try {
+    const docker = new Docker();
+    const container = docker.getContainer(containerId);
 
-  const env = containerInfo.Config.Env || [];
-  const envIndex = env.findIndex((item) => item.startsWith(`${key}=`));
+    
+    const containerInfo = await container.inspect();
 
-  if (envIndex !== -1) {
-    env[envIndex] = `${key}=${value}`;
-  } else {
-    env.push(`${key}=${value}`);
+    
+    const env = containerInfo.Config.Env || [];
+    const envIndex = env.findIndex((item) => item.startsWith(`${key}=`));
+
+    if (envIndex !== -1) {
+      
+      env[envIndex] = `${key}=${value}`;
+    } else {
+      
+      env.push(`${key}=${value}`);
+    }
+
+    
+  const up=  await container.update({ Env: env });
+  return up;
+
+    
+  } catch (error) {
+    return undefined;
+    
   }
-
-  await container.update({ Env: env });
 }
+
 
 export async function getContainerEnvVariables(containerId: string): Promise<{ [key: string]: string }> {
   const container = docker.getContainer(containerId);

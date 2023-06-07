@@ -49,7 +49,7 @@ const Manage = ({ id, DBLIST }: any) => {
       "Content-Type" : "application/json"
     },
     body : JSON.stringify({
-      ENV: env
+      ENV: [env]
    })
     }).then((res)=>{
     router.refresh()

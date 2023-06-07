@@ -14,19 +14,6 @@ if ! command -v docker &> /dev/null; then
   apt-get install -y docker.io
 fi
 
-# Check if Traefik is installed, and install if necessary
-if ! command -v traefik &> /dev/null; then
-  echo "Traefik is not installed. Installing Traefik..."
-  docker network create traefik_proxy
-  docker run -d \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v $PWD/traefik.yml:/etc/traefik/traefik.yml \
-    -p 80:80 -p 8080:8080 \
-    --network traefik_proxy \
-    --name traefik \
-    traefik:v2.4
-fi
-
 # Open ports 9000-9100
 echo "Opening ports 9000-9100..."
 iptables -A INPUT -p tcp --dport 9000:9100 -j ACCEPT
@@ -64,32 +51,55 @@ fi
 git clone https://github.com/scshiv29-dev/flexiDB.git && cd flexiDB
 
 # Install Node.js and modules
-# Assuming you're using Node Version Manager (NVM)
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 nvm install node
 npm install -g pnpm
-pnpm install
+pnpm install -w
 
 # Seed Appwrite with Node.js
 node /package/appwrite/seed.js
 
-# Setup Traefik with user-provided domain and IP
-read -p "Enter the domain: " domain
-read -p "Enter the IP address: " ip
+# Retrieve the server IP automatically
+ip=$(curl -s http://checkip.amazonaws.com)
 
-# Add Traefik configuration for the domain and IP
-echo "
-http:
-  routers:
-    $domain:
-      rule: Host(\`$domain\`)
-      service: $domain
-  services:
-    $domain:
-      loadBalancer:
-        servers:
-          - url: http://$ip:3000
-" >> traefik.yml
+# Setup Traefik with user-provided domain or IP
+read -p "Enter the domain (leave empty to use IP): " domain
+
+if [[ -z $domain ]]; then
+  echo "Using IP address: $ip"
+else
+  # Add Traefik configuration for the domain and IP
+  echo "
+  http:
+    routers:
+      $domain:
+        rule: Host(\`$domain\`)
+        service: $domain
+    services:
+      $domain:
+        loadBalancer:
+          servers:
+            - url: http://$ip:3000
+  " >> traefik.yml
+
+  # Install Traefik
+  if ! command -v traefik &> /dev/null; then
+    echo "Traefik is not installed. Installing Traefik..."
+    docker network create traefik_proxy
+    docker run -d \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      -v $PWD/traefik.yml:/etc/traefik/traefik.yml \
+      -p 80:80 -p 8080:8080 \
+      --network traefik_proxy \
+      --name traefik \
+      traefik:v2.4
+  fi
+fi
 
 # Save the server IP in .env
 echo "SERVER_IP=$ip" >> .env

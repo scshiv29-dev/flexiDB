@@ -10,7 +10,7 @@ export default async function Page(){
       return (
         <div className="text-white">
           <div>
-     <Manage id={id} DBLIST={DBLIST} setServerDB={setDB}/>
+     <Manage id={id} DBLIST={DBLIST} />
          
           </div>
           
