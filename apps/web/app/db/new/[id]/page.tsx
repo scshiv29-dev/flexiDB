@@ -4,7 +4,7 @@ import {getDB} from "@flexidb/config/dbconfig"
 import {DbForm} from "@flexidb/ui"
 export default async function NewDB(){
     const {id}=useParams()
-    const db=await getdbinfo(id)
+const db=await getDB(id)
     
     return (
         <div>
@@ -13,8 +13,4 @@ export default async function NewDB(){
 
         </div>
     )
-}
-export async function getdbinfo(name:string){
-    const db=await getDB(name)
-    return db
 }
