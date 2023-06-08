@@ -80,11 +80,10 @@ else
       $domain:
         rule: Host(\`$domain\`)
         service: $domain
-    services:
-      $domain:
-        loadBalancer:
-          servers:
-            - url: http://$ip:3000
+        tls:
+          certResolver: default
+          domains:
+            - main: $domain
   " >> traefik.yml
 
   # Install Traefik
@@ -94,12 +93,34 @@ else
     docker run -d \
       -v /var/run/docker.sock:/var/run/docker.sock \
       -v $PWD/traefik.yml:/etc/traefik/traefik.yml \
-      -p 80:80 -p 8080:8080 \
+      -p 80:80 -p 443:443 -p 8080:8080 \
       --network traefik_proxy \
       --name traefik \
       traefik:v2.4
   fi
 fi
 
-# Save the server IP in .env
+# Save the server IP and domain in .env
 echo "SERVER_IP=$ip" >> .env
+echo "DOMAIN=$domain" >> .env
+
+# Prompt the user to enter their email address for SSL certificate
+read -p "Enter your email address for SSL certificate: " email
+
+# Add SSL configuration to Traefik
+echo "
+providers:
+  docker:
+    endpoint: unix:///var/run/docker.sock
+    network: traefik_proxy
+certificatesResolvers:
+  default:
+    acme:
+      email: $email
+      storage: acme.json
+      httpChallenge:
+        entryPoint: http
+" >> traefik.yml
+
+# Restart Traefik to apply SSL configuration
+docker restart traefik
