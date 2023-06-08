@@ -30,18 +30,15 @@ export default function DBstat(dbinfo: any) {
   }
 
   if (dbinfo.type === "postgres") {
-    imgForDB = "https://i.imgur.com/KMOSlbX.jpg";
+    imgForDB = "postgres.png";
   } else if (dbinfo.type === "mysql") {
-    imgForDB = "https://i.imgur.com/b3KRq0r.jpg";
+    imgForDB = "mysql.png";
   } else if (dbinfo.type === "mariadb") {
-    imgForDB = "https://i.imgur.com/1y5Sr8V.jpg";
+    imgForDB = "mariadb.png";
   } else if (dbinfo.type === "mongo") {
-    imgForDB = "https://i.imgur.com/IV3NwFm.jpg";
-  } else {
-    imgForDB = "https://i.imgur.com/1y5Sr8V.jpg";
-  }
-
-  return (
+    imgForDB = "/mongo.svg";
+  } 
+   return (
     <div className="card-container">
       <div className="card w-96 bg-base-100 shadow-xl">
         <figure>
