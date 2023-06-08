@@ -8,6 +8,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <title >
+          FlexiDB
+
+        </title>
+        <link rel='icon' href='/favicon.png' />
+      </head>
      <AuthProvider>
       <body>
       <Header  />
