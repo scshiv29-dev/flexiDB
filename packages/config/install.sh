@@ -50,7 +50,7 @@ promptCustomValue "APPWRITE_DB_COLLECTION_DB_ID"
 read -p "Enter your email address: " email
 echo "USER_EMAIL=$email" >> .env
 
-read -p "Enter your phone number(include country code ): " phone
+read -p "Enter your phone number (include country code): " phone
 echo "USER_PHONE=$phone" >> .env
 
 read -p "Enter your password: " password
@@ -60,15 +60,18 @@ read -p "Enter your name: " name
 echo "USER_NAME=$name" >> .env
 
 # Pull the code from git
-git clone https://github.com/scshiv29-dev/flexiDB.git && cd flexiDB
+git clone https://github.com/scshiv29-dev/flexiDB.git
+cd flexiDB
 
 # Install Node.js and modules
 # Assuming you're using Node Version Manager (NVM)
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 nvm install node
 npm install -g pnpm
 pnpm install
