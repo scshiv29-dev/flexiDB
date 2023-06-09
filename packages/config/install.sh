@@ -45,7 +45,7 @@ iptables -A INPUT -p tcp --dport 9000:9100 -j ACCEPT
 # Pull the code from git
 git clone https://github.com/scshiv29-dev/flexiDB.git
 cd flexiDB
-
+touch .env
 
 # Function to prompt for custom values and trim whitespace
 promptCustomValue() {
