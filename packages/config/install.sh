@@ -34,17 +34,17 @@ echo "Opening ports 9000-9100..."
 iptables -A INPUT -p tcp --dport 9000:9100 -j ACCEPT
 
 # Prompt the user to choose default or custom values for environment variables
-read -p "Do you want to use default values for environment variables? (Y/N): " useDefault
+read -p "Do you want to use default values for environment variables? (Y/N): " useDefault < /dev/tty
 
 # Function to prompt for custom values and trim whitespace
 promptCustomValue() {
-  read -p "Enter the value for $1: " value
+  read -p "Enter the value for $1: " value < /dev/tty
   trimmedValue=$(echo $value | tr -d '[:space:]')
   echo "$1=$trimmedValue" >> .env
 }
 
 # Prompt the user for custom values
-echo "Enter custom values for environment variables..."
+echo "Enter custom values for environment variables..." < /dev/tty
 
 # Prompt for USERID (with random 10-digit value)
 randomUserID=$(generateUserID)
@@ -57,16 +57,16 @@ promptCustomValue "APPWRITE_API_KEY"
 promptCustomValue "APPWRITE_DB_ID"
 promptCustomValue "APPWRITE_DB_COLLECTION_DB_ID"
 
-read -p "Enter your email address: " email
+read -p "Enter your email address: " email < /dev/tty
 echo "USER_EMAIL=$email" >> .env
 
-read -p "Enter your phone number (include country code): " phone
+read -p "Enter your phone number (include country code): " phone < /dev/tty
 echo "USER_PHONE=$phone" >> .env
 
-read -p "Enter your password: " password
+read -p "Enter your password: " password < /dev/tty
 echo "USER_PASSWORD=$password" >> .env
 
-read -p "Enter your name: " name
+read -p "Enter your name: " name < /dev/tty
 echo "USER_NAME=$name" >> .env
 
 # Pull the code from git
@@ -93,7 +93,7 @@ node /package/appwrite/seed.js
 ip=$(curl -s http://checkip.amazonaws.com)
 
 # Setup Traefik with user-provided domain or IP
-read -p "Enter the domain (leave empty to use IP): " domain
+read -p "Enter the domain (leave empty to use IP): " domain < /dev/tty
 
 if [[ -z $domain ]]; then
   # Use IP as the domain
@@ -118,7 +118,7 @@ fi
 echo "SERVER_IP=$ip" >> .env
 
 # Prompt the user to enter their email address for SSL certificate
-read -p "Enter your email address for SSL certificate: " email
+read -p "Enter your email address for SSL certificate: " email < /dev/tty
 
 # Add SSL configuration to Traefik
 echo "
