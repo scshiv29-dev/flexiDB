@@ -92,11 +92,13 @@ export NVM_DIR="$HOME/.nvm"
 nvm install node
 npm install -g pnpm
 pnpm install
+node /packages/appwrite/seed.js
+
 pnpm build
 pnpm start
 
 # Seed Appwrite with Node.js
-node /packages/appwrite/seed.js
+
 
 # Retrieve the server IP automatically
 ip=$(curl -s http://checkip.amazonaws.com)
