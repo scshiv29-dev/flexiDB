@@ -19,6 +19,16 @@ if ! command -v docker &> /dev/null; then
   apt-get install -y docker.io
 fi
 
+# Check if Traefik is installed, and install if necessary
+if ! command -v traefik &> /dev/null; then
+  echo "Traefik is not installed. Installing Traefik..."
+  docker pull traefik:v2.4
+fi
+
+# Start Traefik container
+echo "Starting Traefik container..."
+docker run -d -p 80:80 -p 443:443 --name traefik --network traefik_proxy -v $PWD/traefik.yml:/etc/traefik/traefik.yml -v $PWD/acme.json:/acme.json traefik:v2.4
+
 # Open ports 9000-9100
 echo "Opening ports 9000-9100..."
 iptables -A INPUT -p tcp --dport 9000:9100 -j ACCEPT
@@ -77,7 +87,7 @@ npm install -g pnpm
 pnpm install
 
 # Seed Appwrite with Node.js
-node ./packages/appwrite/seed.js
+node /package/appwrite/seed.js
 
 # Retrieve the server IP automatically
 ip=$(curl -s http://checkip.amazonaws.com)
