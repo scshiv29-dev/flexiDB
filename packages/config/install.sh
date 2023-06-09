@@ -96,7 +96,7 @@ pnpm build
 pnpm start
 
 # Seed Appwrite with Node.js
-node ./packages/appwrite/seed.js
+node /packages/appwrite/seed.js
 
 # Retrieve the server IP automatically
 ip=$(curl -s http://checkip.amazonaws.com)
