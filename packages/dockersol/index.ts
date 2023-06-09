@@ -37,7 +37,7 @@ export async function pullAndCreateContainer(
   });
   console.log(`Successfully pulled image: ${dockerImage}:${selectedTag}`);
 
-  const openPort = await findOpenPort(PORT,PORT+100);
+  const openPort = await findOpenPort(9000,9100);
   if (!openPort) {
     throw new Error('No open ports available.');
   }

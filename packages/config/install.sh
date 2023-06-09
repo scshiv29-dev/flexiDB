@@ -33,26 +33,31 @@ promptCustomValue() {
   echo "$1=$trimmedValue" >> .env
 }
 
-if [[ $useDefault =~ ^[Yy]$ ]]; then
-  # Use default values for other environment variables
-  echo "Using default values for environment variables..."
-  
-  echo "APPWRITE_DB_ID=appwrite-flexiDB" >> .env
-  echo "APPWRITE_DB_COLLECTION_DB_ID=flexiDB-databses" >> .env
-else
-  # Prompt the user for custom values
-  echo "Enter custom values for environment variables..."
+# Prompt the user for custom values
+echo "Enter custom values for environment variables..."
 
-  # Prompt for USERID (with random 10-digit value)
-  randomUserID=$(generateUserID)
-  echo "Generated random USERID: $randomUserID"
-  echo "USERID=$randomUserID" >> .env
+# Prompt for USERID (with random 10-digit value)
+randomUserID=$(generateUserID)
+echo "Generated random USERID: $randomUserID"
+echo "USERID=$randomUserID" >> .env
 
-  promptCustomValue "USER_EMAIL"
-  promptCustomValue "USER_PHONE"
-  promptCustomValue "USER_PASSWORD"
-  promptCustomValue "USER_NAME"
-fi
+promptCustomValue "APPWRITE_URL"
+promptCustomValue "APPWRITE_PROJECT_ID"
+promptCustomValue "APPWRITE_API_KEY"
+promptCustomValue "APPWRITE_DB_ID"
+promptCustomValue "APPWRITE_DB_COLLECTION_DB_ID"
+
+read -p "Enter your email address: " email
+echo "USER_EMAIL=$email" >> .env
+
+read -p "Enter your phone number(include country code ): " phone
+echo "USER_PHONE=$phone" >> .env
+
+read -p "Enter your password: " password
+echo "USER_PASSWORD=$password" >> .env
+
+read -p "Enter your name: " name
+echo "USER_NAME=$name" >> .env
 
 # Pull the code from git
 git clone https://github.com/scshiv29-dev/flexiDB.git && cd flexiDB
