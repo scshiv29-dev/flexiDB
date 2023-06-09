@@ -24,9 +24,14 @@ export default function Logs({containerId}:{containerId:string}){
     
     return (
         loading ? <div>Loading</div> : (
-            <div className="mockup-code">
-             <pre><code>{logs}</code></pre>
+            <div className="flex justify-center">
+            <div className=" mockup-code ">
+              <pre>
+                <code className="w-96">{logs}</code>
+              </pre>
             </div>
+          </div>
+          
     ))}
     
     

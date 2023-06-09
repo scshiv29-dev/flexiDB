@@ -1,6 +1,5 @@
-const { Client,ID,Databases,Users,Permission} =require( 'node-appwrite')
+const { Client,ID,Databases,Users,Permission,Role} =require( 'node-appwrite')
 const dotenv =require( 'dotenv');
-const { Role } = require('appwrite');
 dotenv.config();
 
 const client = new Client()

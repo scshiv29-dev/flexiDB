@@ -14,7 +14,7 @@ export function Header() {
     <div className="relative w-full bg-dark">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
-          <img src="/logo.png" ></img>
+          <img className='rounded-full w-4'  src="/logo.png" ></img>
           <Link href="/">
           <span className="font-bold">FlexiDB</span>
           </Link>
