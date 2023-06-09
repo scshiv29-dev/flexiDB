@@ -25,6 +25,13 @@ if ! command -v traefik &> /dev/null; then
   docker pull traefik:v2.4
 fi
 
+
+# Check if the Docker network traefik_proxy exists, and create if necessary
+if ! docker network inspect traefik_proxy &> /dev/null; then
+  echo "Creating Docker network traefik_proxy..."
+  docker network create traefik_proxy
+fi
+
 # Start Traefik container
 echo "Starting Traefik container..."
 docker run -d -p 80:80 -p 443:443 --name traefik --network traefik_proxy -v $PWD/traefik.yml:/etc/traefik/traefik.yml -v $PWD/acme.json:/acme.json traefik:v2.4
@@ -34,7 +41,11 @@ echo "Opening ports 9000-9100..."
 iptables -A INPUT -p tcp --dport 9000:9100 -j ACCEPT
 
 # Prompt the user to choose default or custom values for environment variables
-read -p "Do you want to use default values for environment variables? (Y/N): " useDefault < /dev/tty
+
+# Pull the code from git
+git clone https://github.com/scshiv29-dev/flexiDB.git
+cd flexiDB
+
 
 # Function to prompt for custom values and trim whitespace
 promptCustomValue() {
@@ -43,8 +54,8 @@ promptCustomValue() {
   echo "$1=$trimmedValue" >> .env
 }
 
-# Prompt the user for custom values
-echo "Enter custom values for environment variables..." < /dev/tty
+# Prompt the user for ENV values
+echo "Enter  values for environment variables..." < /dev/tty
 
 # Prompt for USERID (with random 10-digit value)
 randomUserID=$(generateUserID)
@@ -69,10 +80,6 @@ echo "USER_PASSWORD=$password" >> .env
 read -p "Enter your name: " name < /dev/tty
 echo "USER_NAME=$name" >> .env
 
-# Pull the code from git
-git clone https://github.com/scshiv29-dev/flexiDB.git
-cd flexiDB
-
 # Install Node.js and modules
 # Assuming you're using Node Version Manager (NVM)
 
@@ -85,9 +92,11 @@ export NVM_DIR="$HOME/.nvm"
 nvm install node
 npm install -g pnpm
 pnpm install
+pnpm build
+pnpm start
 
 # Seed Appwrite with Node.js
-node /package/appwrite/seed.js
+node ./packages/appwrite/seed.js
 
 # Retrieve the server IP automatically
 ip=$(curl -s http://checkip.amazonaws.com)
