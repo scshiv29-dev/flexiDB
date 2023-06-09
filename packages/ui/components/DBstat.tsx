@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 export default function DBstat(dbinfo: any) {
@@ -14,7 +15,7 @@ export default function DBstat(dbinfo: any) {
         console.log(data);
         setStatus(data);
       });
-  }, []);
+  });
 
   let badgeClass = '';
   let imgForDB = '';
@@ -60,7 +61,13 @@ export default function DBstat(dbinfo: any) {
             window.location.href = `/db/${dbinfo.id}`;
           }}
           className="btn btn-primary mt-4 hover:btn-secondary">Manage</button>
-        </div>
+        
+        <button 
+          onClick={() => {
+            window.location.href = `/db/logs/${dbinfo.id}`;
+          }}
+          className="btn btn-info mt-4 hover:btn-secondary">Logs</button>
+    </div>      
       </div>
     </div>
   );

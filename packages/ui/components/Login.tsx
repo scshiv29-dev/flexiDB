@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-
-import { useAuth } from "../AuthContext";
+import Image from "next/image";
+import { useAuth } from "./AuthContext";
 export default function Login(){
     const [form, setForm] = useState({
         email: "flexidb@admin.com",

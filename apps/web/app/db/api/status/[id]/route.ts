@@ -1,6 +1,4 @@
-// path to this snippet:
-// app/db/api/[id]/status/route.ts
-//route :"/db/api/status/:id"
+
 import { NextResponse } from "next/server";
 import {getContainerStatus} from "@flexidb/dockersol";
 export async function GET(

@@ -44,15 +44,3 @@ export const getDatabase=async (id: string)=>{
         
     return promise;
 }
-
-export const updateDatabase=async (id: string, name: string, type: string, username: string, password: string)=>{
-    const promise = await database.updateDocument("appwrite-flexiDB","flexiDB-databses",id,{
-        name,
-        type,
-        username,
-        password
-    });
-    console.log(promise);
-    return promise;
-}
-

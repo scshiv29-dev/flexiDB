@@ -1,4 +1,4 @@
-import { deleteDatabase, getDatabase, updateDatabase } from "@flexidb/appwrite";
+import { deleteDatabase, getDatabase } from "@flexidb/appwrite";
 import { NextResponse } from "next/server";
 import { startContainer,restartContainer, stopContainer, deleteContainer,changeContainerEnvVariable} from "@flexidb/dockersol";
 export async function GET(   request: Request,

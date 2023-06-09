@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import {useRouter} from 'next/navigation';
-const Manage = ({ id, DBLIST }: any) => {
+export default function Manage  ({ id, DBLIST }: any) {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [containerInfo, setContainerInfo] = useState<any>({});
@@ -9,6 +9,7 @@ const Manage = ({ id, DBLIST }: any) => {
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
   const [serverDB, setServerDB] = useState<any>({});
   const router=useRouter()
+
   const getENVFromDockerImage = (dockerImage: string): string[] | undefined => {
     const db = DBLIST.find((db: any) => db.dockerImage === dockerImage);
     return db ? db.ENV : undefined;
@@ -81,7 +82,7 @@ const Manage = ({ id, DBLIST }: any) => {
   }
   const fetchContainerData = async (containerId: string) => {
     try {
-      const response = await fetch(`/db/api/logs/${containerId}`, {
+      const response = await fetch(`/db/api/info/${containerId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +122,7 @@ const Manage = ({ id, DBLIST }: any) => {
   
   useEffect(() => {
     fetchData();
-  }, []);
+  });
 
   return (
     loading ? <div>Loading</div> : (
@@ -221,4 +222,3 @@ const Manage = ({ id, DBLIST }: any) => {
   );
 };
 
-export default Manage;

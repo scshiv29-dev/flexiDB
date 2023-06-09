@@ -5,16 +5,16 @@ import { Manage } from "@flexidb/ui";
 import {DBLIST} from "@flexidb/config/dbconfig"
 export default async function Page(){
     const {id}=useParams()
-    const [db,setDB]=useState<any>()
+    
 
       return (
-        <div className="text-white">
-          <div>
+        
+     
      <Manage id={id} DBLIST={DBLIST} />
          
-          </div>
+     
           
-        </div>
+     
       );
       
 }

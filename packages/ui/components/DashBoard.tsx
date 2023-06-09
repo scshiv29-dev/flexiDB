@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import DBstat from "../DBstat";
+import DBstat from "./DBstat";
 import { getDatabases } from '@flexidb/appwrite';
 import { Plus } from 'lucide-react';
 

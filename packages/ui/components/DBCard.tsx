@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react'
 import React from 'react'
 import Link from "next/link"
 import {useRouter} from "next/navigation"
+import Image from 'next/image'
 
 export default function DBCard({dbinfo}:{dbinfo: {
   name: string;
@@ -16,8 +17,9 @@ export default function DBCard({dbinfo}:{dbinfo: {
     <div className="flex mt-4 max-w-2xl flex-col items-center rounded-md border md:flex-row">
       <div className="h-full w-full md:h-[200px] md:w-[300px]">
 
-        <img
-          src={dbinfo.dockerImage=="mariadb"?"https://i.imgur.com/1y5Sr8V.jpg":dbinfo.dockerImage=="mysql"?"https://i.imgur.com/b3KRq0r.jpg":dbinfo.dockerImage=="postgres"?"https://i.imgur.com/KMOSlbX.jpg":"https://i.imgur.com/IV3NwFm.jpg" }
+        <Image
+         width={100} height={100} 
+          src={dbinfo.dockerImage=="mariadb"?"/mariadb.png":dbinfo.dockerImage=="mysql"?"/mysql.png":dbinfo.dockerImage=="postgres"?"/postgres.png":"/mongo.svg" }
           alt="db"
           className="h-full w-full rounded-md object-cover"
         />
@@ -30,7 +32,7 @@ export default function DBCard({dbinfo}:{dbinfo: {
           
           <div className="mt-4">
           {dbinfo.tags.map((tag: string )=>(
-                   <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
+                   <span key={tag} className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
                      #{tag}
                  </span>
           ))}
