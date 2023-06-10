@@ -6,9 +6,6 @@
     "types": "src/index.ts",
     "scripts": {
         "appwrite-up": "docker compose up -d || docker-compose up -d",
-        "appwrite-nuke": "docker compose down --volumes --remove-orphans || docker-compose down --volumes --remove-orphans",
-        "appwrite-logs": "docker compose logs -f --tail=100 || docker-compose logs -f --tail=100",
-        "appwrite-down": "docker compose down",
         "appwrite-seed": "node seed.js"
     },
     "dependencies": {

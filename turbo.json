@@ -8,19 +8,8 @@
   ]
   ,
   "pipeline": {
-    "@flexidb/appwrite#appwrite-up":{
-      "cache": false
-    },
-    "@flexidb/appwrite#appwrite-nuke":{
-      "cache": false
-    },
-    "@flexidb/appwrite#appwrite-down":{
-      "cache": false
-    },
+
     "@flexidb/appwrite#appwrite-seed":{
-      "cache": false
-    },
-    "@flexidb/dockersol#seed-docker":{
       "cache": false
     },
     "build": {
