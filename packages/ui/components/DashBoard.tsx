@@ -24,7 +24,7 @@ export default function DashBoard() {
         </div>
       </div>
   
-      <div className="flex flex-wrap space-x-4">
+      <div className="flex flex-wrap justify-center space-x-4 space-y-4">
         {dblist?.map((db: any) => (
           <DBstat key={db.$id} name={db.name} type={db.type} tag={db.tag} containerId={db.containerId} id={db.$id}/>
         ))}
