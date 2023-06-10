@@ -40,10 +40,10 @@ export default function DBstat(dbinfo: any) {
     imgForDB = "/mongo.svg";
   } 
    return (
-    <div className="card-container">
+    <div className="card-container border border-white rounded-lg">
       <div className="card w-96 bg-base-100 shadow-xl">
-        <figure>
-          <img src={imgForDB} alt="DB" className="h-60 w-full object-cover" />
+        <figure className='p-2 border-b border-white'>
+          <img src={imgForDB} alt="DB" className="h-60 w-full " />
         </figure>
         <div className="card-body">
           <h2 className="card-title">
