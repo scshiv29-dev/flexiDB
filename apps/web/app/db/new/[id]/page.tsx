@@ -7,10 +7,8 @@ export default async function NewDB(){
 const db=await getDB(id)
     
     return (
-        <div>
-            {JSON.stringify(db)}
+        <div className="h-screen" >
         <DbForm name={id} tags={db.tags} env={db.ENV} port={db.PORT}/>
-
         </div>
     )
 }

@@ -99,7 +99,7 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center border border-white rounded-lg items-center ">
       <form className="w-full max-w-md" onSubmit={handleSubmit}>
         {success && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
@@ -110,7 +110,7 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
             </span>
           </div>
         )}
-        <div className="mb-4">
+        <div className="mb-4 ">
           <label htmlFor="name" className="block text-amber-500 font-bold mb-2">
             Name:
           </label>

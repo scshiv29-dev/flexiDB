@@ -15,13 +15,13 @@ export default function DBCard({dbinfo}:{dbinfo: {
   const router=useRouter()
   return (
     <div className="flex mt-4 max-w-2xl flex-col items-center rounded-md border md:flex-row">
-      <div className="h-full w-full md:h-[200px] md:w-[300px]">
+      <div className="h-full w-full md:h-[200px] md:w-[300px] p-2 border-r border-white">
 
         <Image
          width={100} height={100} 
           src={dbinfo.dockerImage=="mariadb"?"/mariadb.png":dbinfo.dockerImage=="mysql"?"/mysql.png":dbinfo.dockerImage=="postgres"?"/postgres.png":"/mongo.svg" }
           alt="db"
-          className="h-full w-full rounded-md object-cover"
+          className="h-full w-full rounded-md"
         />
       </div>
       <div>
