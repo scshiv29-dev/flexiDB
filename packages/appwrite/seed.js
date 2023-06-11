@@ -9,7 +9,6 @@ const client = new Client()
 
 const db= new Databases(client);    
 const users=new Users(client);
-
 const createUser=async()=>{
     const user=await users.create(process.env.USERID,process.env.USER_EMAIL,process.env.USER_PHONE,process.env.USER_PASSWORD,process.env.USER_NAME);
 }
@@ -41,9 +40,8 @@ const createCollection=async()=>{
 
 
 const seed=async()=>{
-    await createUser();
-    await createDB();
-    await createCollection();
+
+    console.log(process.env.USERID,process.env.USER_EMAIL,process.env.USER_PHONE,process.env.USER_PASSWORD,process.env.USER_NAME)
 
 }
 seed();
