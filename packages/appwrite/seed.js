@@ -14,7 +14,7 @@ const createUser=async()=>{
     const user=await users.create(process.env.USER_ID,process.env.USER_EMAIL,process.env.USER_PHONE,process.env.USER_PASSWORD,process.env.USER_NAME);
 }
 const createDB=async()=>{
-        await db.create(proccess.env.APPWRITE_DB_ID,"mainDB").then(console.log).catch(console.error);
+        await db.create(process.env.APPWRITE_DB_ID,"mainDB").then(console.log).catch(console.error);
     
 }
 
