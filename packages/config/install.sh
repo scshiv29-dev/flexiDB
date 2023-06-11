@@ -22,7 +22,7 @@ fi
 # Check if Traefik is installed, and install if necessary
 if ! command -v traefik &> /dev/null; then
   echo "Traefik is not installed. Installing Traefik..."
-  docker pull traefik:v2.4
+  docker pull traefik:v2.10
 fi
 
 # Check if the Docker network traefik_proxy exists, and create if necessary
@@ -31,10 +31,15 @@ if ! docker network inspect traefik_proxy &> /dev/null; then
   docker network create traefik_proxy
 fi
 
+# Remove existing Traefik container if it exists
+if docker ps -a --format '{{.Names}}' | grep -q '^traefik$'; then
+  echo "Removing existing Traefik container..."
+  docker rm -f traefik
+fi
+
 # Start Traefik container
 echo "Starting Traefik container..."
-docker run -d -p 80:80 -p 443:443 --name traefik --network traefik_proxy -v $PWD/traefik.yml:/etc/traefik/traefik.yml -v $PWD/acme.json:/acme.json traefik:v2.4
-
+docker run -d -p 80:80 -p 443:443 --name traefik --network traefik_proxy -v $PWD/traefik.yml:/etc/traefik/traefik.yml -v $PWD/acme.json:/acme.json traefik:v2.10
 # Open ports 9000-9100
 echo "Opening ports 9000-9100..."
 iptables -A INPUT -p tcp --dport 9000:9100 -j ACCEPT
@@ -62,8 +67,10 @@ printf "USERID=%s\n" "$randomUserID" >> .env
 promptCustomValue "APPWRITE_URL"
 promptCustomValue "APPWRITE_PROJECT_ID"
 promptCustomValue "APPWRITE_API_KEY"
-promptCustomValue "APPWRITE_DB_ID"
-promptCustomValue "APPWRITE_DB_COLLECTION_DB_ID"
+
+
+printf "APPWRITE_DB_ID=appwrite-flexiDB\n" >> .env
+printf "APPWRITE_DB_COLLECTION_DB_ID=flexiDB-databses\n"  >> .env
 
 read -p "Enter your email address: " email < /dev/tty
 printf "USER_EMAIL=%s\n" "$email" >> .env
@@ -102,26 +109,6 @@ printf "SERVER_IP=%s\n" "$ip" >> .env
 
 
 # Setup Traefik with user-provided domain or IP
-read -p "Enter the domain (leave empty to use IP): " domain < /dev/tty
-
-if [[ -z $domain ]]; then
-  # Use IP as the domain
-  domain=$ip
-else
-  # Add Traefik configuration for the domain
-  echo "
-http:
-  routers:
-    $domain:
-      rule: Host(\`$domain\`)
-      service: $domain
-  services:
-    $domain:
-      loadBalancer:
-        servers:
-          - url: http://$ip:3000
-" >> traefik.yml
-fi# Setup Traefik with user-provided domain or IP
 read -p "Enter the domain (leave empty to use IP): " domain < /dev/tty
 
 if [[ -z $domain ]]; then
