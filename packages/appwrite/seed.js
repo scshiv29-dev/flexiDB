@@ -46,3 +46,4 @@ const seed=async()=>{
     await createCollection();
 
 }
+seed();
