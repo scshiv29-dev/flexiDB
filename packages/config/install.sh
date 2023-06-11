@@ -86,28 +86,6 @@ printf "USER_NAME=%s\n" "$name" >> .env
 
 cp .env packages/appwrite
 
-# Install Node.js and modules
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-nvm install node
-npm install -g pnpm
-pnpm install
-pnpm seed
-
-pnpm dev
-# Seed Appwrite with Node.js
-
-# Retrieve the server IP automatically
-ip=$(curl -s http://checkip.amazonaws.com)
-
-# Save the server IP in .env
-printf "SERVER_IP=%s\n" "$ip" >> .env
-
-
 # Setup Traefik with user-provided domain or IP
 read -p "Enter the domain (leave empty to use IP): " domain < /dev/tty
 
@@ -129,3 +107,25 @@ http:
           - url: http://$ip:3000
 " >> traefik.yml
 fi
+
+# Install Node.js and modules
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+nvm install node
+npm install -g pnpm
+pnpm install
+pnpm seed
+
+pnpm dev
+# Seed Appwrite with Node.js
+
+# Retrieve the server IP automatically
+ip=$(curl -s http://checkip.amazonaws.com)
+
+# Save the server IP in .env
+printf "SERVER_IP=%s\n" "$ip" >> .env
+
