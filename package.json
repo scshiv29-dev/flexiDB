@@ -7,7 +7,6 @@
     "dock-nuke": "turbo run dock-nuke",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "dx": "turbo run dx",
     "seed": "turbo run seed",
     "seed-docker": "turbo run seed-docker"
   },

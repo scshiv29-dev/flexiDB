@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
-import { DatabaseIcon } from 'lucide-react';
+import React, { useState } from "react";
+import { nanoid } from "nanoid";
+import { DatabaseIcon } from "lucide-react";
 
 interface DbFormProps {
   name: string;
@@ -17,10 +17,13 @@ interface EnvVariable {
 
 const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
   const [formValues, setFormValues] = useState({
-    tag: '',
+    tag: "",
     name: nanoid(14),
     type: name,
-    envVariables: env.map((envVar) => ({ name: envVar, value: nanoid(14) })) as EnvVariable[],
+    envVariables: env.map((envVar) => ({
+      name: envVar,
+      value: nanoid(14),
+    })) as EnvVariable[],
   });
   const [success, setSuccess] = useState(false);
 
@@ -40,7 +43,10 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
     }));
   };
 
-  const handleEnvInputChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEnvInputChange = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = e.target;
     setFormValues((prevValues) => {
       const updatedEnvVariables = [...prevValues.envVariables];
@@ -55,8 +61,13 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
   const checkFormCompletion = () => {
     const { tag, name, type, envVariables } = formValues;
 
-    if (!tag || !name || !type || envVariables.some((envVar) => !envVar.value)) {
-      alert('Please fill in all the fields');
+    if (
+      !tag ||
+      !name ||
+      !type ||
+      envVariables.some((envVar) => !envVar.value)
+    ) {
+      alert("Please fill in all the fields");
       return false;
     }
 
@@ -73,10 +84,10 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
     const { tag, name, type, envVariables } = formValues;
     console.log(name, tag, type, envVariables, port);
 
-    fetch('/db/new/api', {
-      method: 'POST',
+    fetch("/db/new/api", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name,
@@ -90,10 +101,10 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
       if (res.status === 200) {
         setSuccess(true);
         setTimeout(() => {
-          window.location.href = '/';
+          window.location.href = "/";
         }, 5000);
       } else {
-        alert('Something went wrong');
+        alert("Something went wrong");
       }
     });
   };
@@ -102,11 +113,17 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
     <div className="flex justify-center border border-white rounded-lg items-center ">
       <form className="w-full max-w-md" onSubmit={handleSubmit}>
         {success && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+          <div
+            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+            role="alert"
+          >
             <span className="font-bold">Success!</span>
-            <span className="block sm:inline"> Your database has been deployed.</span>
+            <span className="block sm:inline">
+              {" "}
+              Your database has been deployed.
+            </span>
             <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-              <DatabaseIcon  />
+              <DatabaseIcon />
             </span>
           </div>
         )}
@@ -161,7 +178,10 @@ const DbForm: React.FC<DbFormProps> = ({ name, tags, env, port }) => {
           </label>
           {formValues.envVariables.map((envVar, index) => (
             <div key={index}>
-              <label htmlFor={`env-${index}`} className="block text-amber-500 font-bold mb-2">
+              <label
+                htmlFor={`env-${index}`}
+                className="block text-amber-500 font-bold mb-2"
+              >
                 {envVar.name}:
               </label>
               <input

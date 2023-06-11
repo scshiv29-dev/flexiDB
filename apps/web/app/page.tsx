@@ -1,19 +1,9 @@
-"use client"
-import { DashBoard,useAuth } from "@flexidb/ui";
+"use client";
+import { DashBoard, useAuth } from "@flexidb/ui";
 import LoginPage from "./login";
 
 export default function Page() {
+  const { isLoggedIn } = useAuth();
 
-
-  const {isLoggedIn}=useAuth()
-
-  return (
-    <div>
-      {!isLoggedIn ?(
-        <LoginPage/>
-      ):(
-        <DashBoard/> 
-      )}
-    </div>
-  );
+  return <div>{!isLoggedIn ? <LoginPage /> : <DashBoard />}</div>;
 }

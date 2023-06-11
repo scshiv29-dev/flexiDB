@@ -1,17 +1,20 @@
-import net from 'net';
+import net from "net";
 
-export async function findOpenPort(startPort: number, endPort: number): Promise<number> {
+export async function findOpenPort(
+  startPort: number,
+  endPort: number
+): Promise<number> {
   for (let port = startPort; port <= endPort; port++) {
     const server = net.createServer();
 
     try {
       await new Promise<void>((resolve, reject) => {
         server.listen(port);
-        server.on('listening', () => {
+        server.on("listening", () => {
           server.close();
           resolve();
         });
-        server.on('error', (error) => {
+        server.on("error", (error) => {
           server.close();
           reject(error);
         });
@@ -23,5 +26,5 @@ export async function findOpenPort(startPort: number, endPort: number): Promise<
     }
   }
 
-  throw new Error('No open ports available');
+  throw new Error("No open ports available");
 }

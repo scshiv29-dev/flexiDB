@@ -1,12 +1,18 @@
-"use client"
+"use client";
 
-import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import {accLogin} from "@flexidb/appwrite"
+import {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect,
+} from "react";
+import { accLogin } from "@flexidb/appwrite";
 
 // Define the shape of the context value
 interface AuthContextValue {
   isLoggedIn: boolean;
-  login: (email:string,password:string) => void;
+  login: (email: string, password: string) => void;
   logout: () => void;
 }
 
@@ -30,23 +36,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const value = localStorage.getItem("cookieFallback")
-      if(value){
-        setIsLoggedIn(true)
+      const value = localStorage.getItem("cookieFallback");
+      if (value) {
+        setIsLoggedIn(true);
       }
     }
   }, []);
-  const login = async(email:string,password:string) => {
-    const res:any= await accLogin("flexidb@admin.com","flexidbadmin")
-      if(res){
-        setIsLoggedIn(true)
-      }
-
+  const login = async (email: string, password: string) => {
+    const res: any = await accLogin("flexidb@admin.com", "flexidbadmin");
+    if (res) {
+      setIsLoggedIn(true);
+    }
   };
 
   const logout = () => {
     // Perform logout logic here
-    localStorage.removeItem("cookieFallback")
+    localStorage.removeItem("cookieFallback");
     setIsLoggedIn(false);
   };
 

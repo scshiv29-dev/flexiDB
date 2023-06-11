@@ -1,18 +1,17 @@
 import { NextResponse } from "next/server";
-import {getContainerInfo, getContainerLogs} from "@flexidb/dockersol";
+import { getContainerInfo, getContainerLogs } from "@flexidb/dockersol";
 
 export async function GET(
-            request: Request,
-            {
-            params,
-            }: {
-            params: { id: string };
-            },
-        ) {
-            const id  = params.id;
+  request: Request,
+  {
+    params,
+  }: {
+    params: { id: string };
+  }
+) {
+  const id = params.id;
 
-      
-            const logs = await getContainerLogs(id);
-  
-            return NextResponse.json(logs);
-        }
+  const logs = await getContainerLogs(id);
+
+  return NextResponse.json(logs);
+}

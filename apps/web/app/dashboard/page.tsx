@@ -1,7 +1,3 @@
 export default function Page() {
- return    (
-        <div>
-            MyDB
-        </div>
- )
+  return <div>MyDB</div>;
 }

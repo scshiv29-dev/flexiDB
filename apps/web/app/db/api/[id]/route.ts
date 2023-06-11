@@ -1,84 +1,89 @@
 import { deleteDatabase, getDatabase } from "@flexidb/appwrite";
 import { NextResponse } from "next/server";
-import { startContainer,restartContainer, stopContainer, deleteContainer,changeContainerEnvVariable} from "@flexidb/dockersol";
-export async function GET(   request: Request,
-    {
+import {
+  startContainer,
+  restartContainer,
+  stopContainer,
+  deleteContainer,
+  changeContainerEnvVariable,
+} from "@flexidb/dockersol";
+export async function GET(
+  request: Request,
+  {
     params,
-    }: {
+  }: {
     params: { id: string };
-    },
-){
-  
-    const id  = params.id;
+  }
+) {
+  const id = params.id;
 
-    const db = await getDatabase(id);
-    
-    return new Response(JSON.stringify(db))
+  const db = await getDatabase(id);
+
+  return new Response(JSON.stringify(db));
 }
 
-export async function POST(   request: Request,
-    {
+export async function POST(
+  request: Request,
+  {
     params,
-    }: {
+  }: {
     params: { id: string };
-    },
-){
-  
-    const id  = params.id;
-    const {func}=await request.json()
-    const db = await getDatabase(id);
-    const containerId=db.containerId;
-    if(func==="start"){
-        const d=startContainer(containerId);
-        return new Response(JSON.stringify(d))
-
-    }
-    else if(func==="restart"){
-        const d=restartContainer(containerId);
-        return new Response(JSON.stringify(d))
-        
-    }else if (func==="stop"){
-        const d=stopContainer(containerId);
-    return new Response(JSON.stringify(d))   
-    }   
+  }
+) {
+  const id = params.id;
+  const { func } = await request.json();
+  const db = await getDatabase(id);
+  const containerId = db.containerId;
+  if (func === "start") {
+    const d = startContainer(containerId);
+    return new Response(JSON.stringify(d));
+  } else if (func === "restart") {
+    const d = restartContainer(containerId);
+    return new Response(JSON.stringify(d));
+  } else if (func === "stop") {
+    const d = stopContainer(containerId);
+    return new Response(JSON.stringify(d));
+  }
 }
 
-export async function DELETE(   request: Request,
-    {
+export async function DELETE(
+  request: Request,
+  {
     params,
-    }: {
+  }: {
     params: { id: string };
-    },
-){
-  
-    const id  = params.id;
-    const db = await getDatabase(id);
-    const containerId=db.containerId;
-    const d=deleteContainer(containerId);
-    const dd=await deleteDatabase(id);
-    return new Response(JSON.stringify(dd))
+  }
+) {
+  const id = params.id;
+  const db = await getDatabase(id);
+  const containerId = db.containerId;
+  const d = deleteContainer(containerId);
+  const dd = await deleteDatabase(id);
+  return new Response(JSON.stringify(dd));
 }
 
-export async function PUT(   request: Request,
-    {
+export async function PUT(
+  request: Request,
+  {
     params,
-    }: {
+  }: {
     params: { id: string };
-    },
-){
-  console.log("put")
-    const id  = params.id;
-    const db = await getDatabase(id);
-    const {ENV} = await request.json();
-    console.log(ENV)
-    if (ENV){
-        const containerId=db.containerId;
-        Object.entries(ENV).forEach(async ([key, value])=>{
-
-            await changeContainerEnvVariable(containerId,key,ENV[key])
-        })
-        return new Response(JSON.stringify({
-            status:"success"
-        }))
-    }
+  }
+) {
+  console.log("put");
+  const id = params.id;
+  const db = await getDatabase(id);
+  const { ENV } = await request.json();
+  console.log(ENV);
+  if (ENV) {
+    const containerId = db.containerId;
+    Object.entries(ENV).forEach(async ([key, value]) => {
+      await changeContainerEnvVariable(containerId, key, ENV[key]);
+    });
+    return new Response(
+      JSON.stringify({
+        status: "success",
+      })
+    );
+  }
 }

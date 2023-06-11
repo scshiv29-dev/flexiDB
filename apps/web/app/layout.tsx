@@ -1,6 +1,6 @@
-import { Header } from '@flexidb/ui';
-import './globals.css';
-import {AuthProvider} from "@flexidb/ui"
+import { Header } from "@flexidb/ui";
+import "./globals.css";
+import { AuthProvider } from "@flexidb/ui";
 export default function RootLayout({
   children,
 }: {
@@ -9,18 +9,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title >
-          FlexiDB
-
-        </title>
-        <link rel='icon' href='/favicon.png' />
+        <title>FlexiDB</title>
+        <link rel="icon" href="/favicon.png" />
       </head>
-     <AuthProvider>
-      <body>
-      <Header  />
-        {children}
+      <AuthProvider>
+        <body>
+          <Header />
+          {children}
         </body>
-        </AuthProvider>
+      </AuthProvider>
     </html>
   );
 }

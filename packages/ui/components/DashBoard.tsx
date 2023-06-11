@@ -1,15 +1,14 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import DBstat from "./DBstat";
-import { getDatabases } from '@flexidb/appwrite';
-import { Plus } from 'lucide-react';
+import { getDatabases } from "@flexidb/appwrite";
+import { Plus } from "lucide-react";
 
 export default function DashBoard() {
   const [dblist, setDblist] = useState<any>();
 
   useEffect(() => {
-    getDatabases().then(res => setDblist(res.documents));
-
+    getDatabases().then((res) => setDblist(res.documents));
   }, []);
 
   return (
@@ -20,17 +19,29 @@ export default function DashBoard() {
       </p>
       <div className="flex justify-end mb-5">
         <div className="badge badge-success hover:badge-info rounded-full">
-          <Plus size={30} className="cursor-pointer" onClick={() => { window.location.href = "/db"; }} />
+          <Plus
+            size={30}
+            className="cursor-pointer"
+            onClick={() => {
+              window.location.href = "/db";
+            }}
+          />
         </div>
       </div>
-  
+
       <div className="flex flex-wrap justify-center space-x-4 space-y-4">
         {dblist?.map((db: any) => (
-          <DBstat key={db.$id} name={db.name} type={db.type} tag={db.tag} containerId={db.containerId} id={db.$id}/>
+          <DBstat
+            key={db.$id}
+            name={db.name}
+            type={db.type}
+            tag={db.tag}
+            containerId={db.containerId}
+            id={db.$id}
+          />
         ))}
       </div>
-      <div className="divider">
-      </div>
+      <div className="divider"></div>
     </div>
   );
 }

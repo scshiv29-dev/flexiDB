@@ -1,36 +1,37 @@
-'use client'
-import React from 'react'
-import { Menu, X } from 'lucide-react'
-import { useAuth } from './AuthContext'
-import Link from "next/link"
+"use client";
+import React from "react";
+import { Menu, X } from "lucide-react";
+import { useAuth } from "./AuthContext";
+import Link from "next/link";
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-  const { isLoggedIn, logout } = useAuth()
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { isLoggedIn, logout } = useAuth();
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <div className="relative w-full bg-dark border-b border-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2 ">
-          <img className='rounded-full w-7 '  src="/logo.png" ></img>
+          <img className="rounded-full w-7 " src="/logo.png"></img>
           <Link href="/">
-          <span className="font-bold">FlexiDB</span>
+            <span className="font-bold">FlexiDB</span>
           </Link>
         </div>
-        <div className="hidden grow items-start lg:flex">
-
-        </div>
+        <div className="hidden grow items-start lg:flex"></div>
         <div className="hidden lg:block">
           {isLoggedIn ? (
-              <button
+            <button
               onClick={logout}
-                 type="button"
-                 className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black" >
-                    Logout
-              </button>):(<></>)  }
-
+              type="button"
+              className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              Logout
+            </button>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
@@ -80,5 +81,5 @@ export function Header() {
         )}
       </div>
     </div>
-  )
+  );
 }
