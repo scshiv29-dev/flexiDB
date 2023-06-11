@@ -9,8 +9,9 @@ const client = new Client()
 
 const db= new Databases(client);    
 const users=new Users(client);
+
 const createUser=async()=>{
-    const user=await users.create(process.env.USERID,process.env.USER_EMAIL,process.env.USER_PHONE,process.env.USER_PASSWORD,process.env.USER_NAME);
+    const user=await users.create(process.env.USER_ID,process.env.USER_EMAIL,process.env.USER_PHONE,process.env.USER_PASSWORD,process.env.USER_NAME);
 }
 const createDB=async()=>{
         await db.create(proccess.env.APPWRITE_DB_ID,"mainDB").then(console.log).catch(console.error);
@@ -20,10 +21,10 @@ const createDB=async()=>{
 const createCollection=async()=>{
 
         await db.createCollection(proccess.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"Databases",[
-            Permission.read(Role.user(process.env.USERID)),
-            Permission.create(Role.user(process.env.USERID)),
-            Permission.update(Role.user(process.env.USERID)),
-            Permission.delete(Role.user(process.env.USERID)),
+            Permission.read(Role.user(process.env.USER_ID)),
+            Permission.create(Role.user(process.env.USER_ID)),
+            Permission.update(Role.user(process.env.USER_ID)),
+            Permission.delete(Role.user(process.env.USER_ID)),
         ]) 
         .then(async (res)=>{
             console.log(res);       
@@ -40,8 +41,9 @@ const createCollection=async()=>{
 
 
 const seed=async()=>{
-
-    console.log(process.env.USERID,process.env.USER_EMAIL,process.env.USER_PHONE,process.env.USER_PASSWORD,process.env.USER_NAME)
+    await createUser();
+    await createDB();
+    await createCollection();
 
 }
 seed();

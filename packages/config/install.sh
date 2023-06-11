@@ -62,7 +62,7 @@ echo "Enter values for environment variables..." < /dev/tty
 # Prompt for USERID (with random 10-digit value)
 randomUserID=$(generateUserID)
 echo "Generated random USERID: $randomUserID"
-printf "USERID=%s\n" "$randomUserID" >> .env
+printf "USER_ID=%s\n" "$randomUserID" >> .env
 
 promptCustomValue "APPWRITE_URL"
 promptCustomValue "APPWRITE_PROJECT_ID"
@@ -84,9 +84,9 @@ printf "USER_PASSWORD=%s\n" "$password" >> .env
 read -p "Enter your name: " name < /dev/tty
 printf "USER_NAME=%s\n" "$name" >> .env
 
-# Install Node.js and modules
-# Assuming you're using Node Version Manager (NVM)
+cp .env packages/appwrite
 
+# Install Node.js and modules
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
 export NVM_DIR="$HOME/.nvm"
