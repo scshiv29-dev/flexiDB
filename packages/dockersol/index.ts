@@ -96,11 +96,11 @@ export async function deleteContainer(containerId: string): Promise<void> {
 }
 
 export async function getContainerStatus(
-  containerNameOrId: string
+  containerId: string
 ): Promise<string | undefined> {
   try {
     const docker = new Docker();
-    const container = docker.getContainer(containerNameOrId);
+    const container = docker.getContainer(containerId);
 
     const containerInfo = await container.inspect();
     return containerInfo.State?.Status;

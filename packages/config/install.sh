@@ -136,12 +136,8 @@ pnpm install
 # Seed Appwrite with Node.js
 pnpm seed
 
-
-
-
-
 # Run the app inside a tmux session
-tmux new-session -d -s flexiDB "cd flexiDB && pnpm run dev"
+tmux new-session -d -s flexiDB "cd flexiDB && pnpm dev"
 
 echo "FlexiDB app is running in a tmux session."
 echo "You can detach from the session by pressing 'Ctrl + B' followed by 'D'."
