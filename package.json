@@ -3,12 +3,12 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "start": "turbo run start",
     "dock-down": "turbo run dock-down",
     "dock-nuke": "turbo run dock-nuke",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "seed": "turbo run seed",
-    "seed-docker": "turbo run seed-docker"
+    "seed": "turbo run seed"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",

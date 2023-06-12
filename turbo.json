@@ -8,8 +8,10 @@
   ]
   ,
   "pipeline": {
-
     "@flexidb/appwrite#appwrite-seed":{
+      "cache": false
+    },
+    "@flexidb/web#start":{
       "cache": false
     },
     "build": {
@@ -23,22 +25,13 @@
       "cache": false,
       "persistent": true
     },
-    "dock-down":{
-      "cache":false,
-      "dependsOn": ["@flexidb/appwrite#appwrite-down"]
-    },
-    "dock-nuke":{
-      "cache": false,
-      "dependsOn": ["@flexidb/appwrite#appwrite-nuke"]
-    },
     "seed":{
       "cache": false,
       "dependsOn": ["@flexidb/appwrite#appwrite-seed"]
     },
-  "seed-docker":{
-    "cache": false,
-    "dependsOn": ["@flexidb/dockersol#seed-docker"]
+    "start":{
+      "cache": false,
+      "dependsOn": ["@flexidb/web#start"]
     }
-
   }
 }

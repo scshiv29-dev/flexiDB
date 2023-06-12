@@ -25,6 +25,12 @@ if ! command -v traefik &> /dev/null; then
   docker pull traefik:v2.10
 fi
 
+# Check if tmux is installed, and install if necessary
+if ! command -v tmux &> /dev/null; then
+  echo "tmux is not installed. Installing tmux..."
+  apt-get update
+  apt-get install -y tmux
+fi
 # Check if the Docker network traefik_proxy exists, and create if necessary
 if ! docker network inspect traefik_proxy &> /dev/null; then
   echo "Creating Docker network traefik_proxy..."
@@ -84,7 +90,12 @@ printf "USER_PASSWORD=%s\n" "$password" >> .env
 read -p "Enter your name: " name < /dev/tty
 printf "USER_NAME=%s\n" "$name" >> .env
 
-cp .env packages/appwrite
+
+# Retrieve the server IP automatically
+ip=$(curl -s http://checkip.amazonaws.com)
+
+# Save the server IP in .env
+printf "SERVER_IP=%s\n" "$ip" >> .env
 
 # Setup Traefik with user-provided domain or IP
 read -p "Enter the domain (leave empty to use IP): " domain < /dev/tty
@@ -108,6 +119,9 @@ http:
 " >> traefik.yml
 fi
 
+cp .env packages/appwrite
+
+
 # Install Node.js and modules
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
@@ -118,14 +132,18 @@ export NVM_DIR="$HOME/.nvm"
 nvm install node
 npm install -g pnpm
 pnpm install
+
+# Seed Appwrite with Node.js
 pnpm seed
 
-pnpm dev
-# Seed Appwrite with Node.js
 
-# Retrieve the server IP automatically
-ip=$(curl -s http://checkip.amazonaws.com)
 
-# Save the server IP in .env
-printf "SERVER_IP=%s\n" "$ip" >> .env
 
+# Run the app inside a tmux session
+tmux new-session -d -s flexiDB "cd flexiDB && pnpm dev"
+
+echo "FlexiDB app is running in a tmux session."
+echo "You can detach from the session by pressing 'Ctrl + B' followed by 'D'."
+
+# Show the status of the tmux session
+tmux ls
