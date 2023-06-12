@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, []);
   const login = async (email: string, password: string) => {
-    const res: any = await accLogin("flexidb@admin.com", "flexidbadmin");
+    const res: any = await accLogin(email,password);
     if (res) {
       setIsLoggedIn(true);
     }
