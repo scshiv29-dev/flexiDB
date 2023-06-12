@@ -20,7 +20,7 @@ const createDB=async()=>{
 
 const createCollection=async()=>{
 
-        await db.createCollection(proccess.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"Databases",[
+        await db.createCollection(process.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"Databases",[
             Permission.read(Role.user(process.env.USER_ID)),
             Permission.create(Role.user(process.env.USER_ID)),
             Permission.update(Role.user(process.env.USER_ID)),
@@ -28,10 +28,10 @@ const createCollection=async()=>{
         ]) 
         .then(async (res)=>{
             console.log(res);       
-            await db.createStringAttribute(proccess.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"name",100,true)
-            await db.createStringAttribute(proccess.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"type",100,true)
-            await db.createStringAttribute(proccess.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"tag",15,true)
-            await db.createStringAttribute(proccess.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"containerId",15,true)
+            await db.createStringAttribute(process.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"name",100,true)
+            await db.createStringAttribute(process.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"type",100,true)
+            await db.createStringAttribute(process.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"tag",15,true)
+            await db.createStringAttribute(process.env.APPWRITE_DB_ID,process.env.APPWRITE_DB_COLLECTION_DB_ID,"containerId",15,true)
         }).catch((err)=>{
             console.log(err);
         });
@@ -41,7 +41,7 @@ const createCollection=async()=>{
 
 
 const seed=async()=>{
-    await createUser();
+    
     await createDB();
     await createCollection();
 
