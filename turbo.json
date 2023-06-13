@@ -23,7 +23,14 @@
     "lint": {},
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env":
+        [
+          "APPWRITE_URL",
+          "APPWRITE_PROJECT_ID",
+          "APPWRITE_API_KEY"
+        ]
+      
     },
     "seed":{
       "cache": false,
