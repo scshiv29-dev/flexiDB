@@ -1,6 +1,7 @@
 import { Client, Account, ID, Databases, Query, type Models } from "appwrite";
-export const appwriteEndpoint = "https://cloud.appwrite.io/v1";
-export const appwriteProjectId = "flexidb";
+import 'dotenv/config';
+export const appwriteEndpoint = process.env.APPWRITE_URL ||"";
+export const appwriteProjectId = process.env.APPWRITE_PROJECT_ID ||"";
 import { nanoid } from "nanoid";
 const client = new Client()
   .setEndpoint(appwriteEndpoint)
