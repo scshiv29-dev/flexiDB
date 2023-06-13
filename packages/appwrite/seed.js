@@ -41,7 +41,7 @@ const createCollection=async()=>{
 
 
 const seed=async()=>{
-    
+    await createUser();
     await createDB();
     await createCollection();
 
