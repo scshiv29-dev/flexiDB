@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "dotenv turbo run dev",
     "start": "turbo run start",
     "dock-down": "turbo run dock-down",
     "dock-nuke": "turbo run dock-nuke",
