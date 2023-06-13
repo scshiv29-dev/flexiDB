@@ -1,7 +1,8 @@
 import { Client, Account, ID, Databases, Query, type Models } from "appwrite";
-export const appwriteEndpoint = process.env.APPWRITE_URL ||"";
-export const appwriteProjectId = process.env.APPWRITE_PROJECT_ID ||"";
+import { APPWRITE_URL, APPWRITE_PROJECT_ID } from "./sendconf.js";
 import { nanoid } from "nanoid";
+export const appwriteEndpoint = APPWRITE_URL||"http://cloud.appwrite.io/v1"
+export const appwriteProjectId = APPWRITE_PROJECT_ID||"5f9c5b3b5c5a9"
 const client = new Client()
   .setEndpoint(appwriteEndpoint)
   .setProject(appwriteProjectId);
