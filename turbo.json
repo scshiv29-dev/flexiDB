@@ -2,8 +2,8 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local",".env"],
   "globalEnv": [
-    "APPWRITE_URL",
-    "APPWRITE_PROJECT_ID",
+    "NEXT_PUBLIC_APPWRITE_URL",
+    "NEXT_PUBLIC_APPWRITE_PROJECT_ID",
     "APPWRITE_API_KEY"
   ]
   ,
@@ -23,7 +23,11 @@
     "lint": {},
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": [
+        "NEXT_PUBLIC_APPWRITE_URL",
+        "NEXT_PUBLIC_APPWRITE_PROJECT_ID"
+      ]
     },
     "seed":{
       "cache": false,

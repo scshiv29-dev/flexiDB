@@ -1,27 +1,29 @@
 import { Client, Account, ID, Databases, Query, type Models } from "appwrite";
-import { APPWRITE_URL, APPWRITE_PROJECT_ID } from "./sendconf.js";
+
 import { nanoid } from "nanoid";
-export const appwriteEndpoint = APPWRITE_URL||"http://cloud.appwrite.io/v1"
-export const appwriteProjectId = APPWRITE_PROJECT_ID||"5f9c5b3b5c5a9"
-const client = new Client()
+
+
+export const accLogin = async (email: string, password: string,appwriteEndpoint,appwriteProjectId) => {
+
+  console.log(appwriteEndpoint,appwriteProjectId);
+  const client = new Client()
   .setEndpoint(appwriteEndpoint)
   .setProject(appwriteProjectId);
 
-const account = new Account(client);
-const database = new Databases(client);
-
-interface EnvVariable {
-  name: string;
-  value: string;
-}
-
-export const accLogin = async (email: string, password: string) => {
+  const account = new Account(client);
   const promise = await account.createEmailSession(email, password);
   console.log(promise);
   return promise;
 };
 
-export const getDatabases = async () => {
+export const getDatabases = async (appwriteEndpoint,appwriteProjectId) => {
+  console.log(appwriteEndpoint,appwriteProjectId);
+
+  const client = new Client()
+  .setEndpoint(appwriteEndpoint)
+  .setProject(appwriteProjectId);
+
+  const database = new Databases(client);
   const promise = await database.listDocuments(
     "appwrite-flexiDB",
     "flexiDB-databses"
@@ -34,8 +36,15 @@ export const createDatabase = async (
   name: string,
   type: string,
   tag: string,
-  containerId: string
+  containerId: string,
+  appwriteEndpoint:string,
+  appwriteProjectId:string
 ) => {
+  const client = new Client()
+  .setEndpoint(appwriteEndpoint)
+  .setProject(appwriteProjectId);
+
+  const database = new Databases(client);
   const promise = await database.createDocument(
     "appwrite-flexiDB",
     "flexiDB-databses",
@@ -46,7 +55,12 @@ export const createDatabase = async (
   return promise;
 };
 
-export const deleteDatabase = async (id: string) => {
+export const deleteDatabase = async (id: string,appwriteEndpoint,appwriteProjectId) => {
+  const client = new Client()
+  .setEndpoint(appwriteEndpoint)
+  .setProject(appwriteProjectId);
+
+  const database = new Databases(client);
   const promise = await database.deleteDocument(
     "appwrite-flexiDB",
     "flexiDB-databses",
@@ -56,7 +70,12 @@ export const deleteDatabase = async (id: string) => {
   return promise;
 };
 
-export const getDatabase = async (id: string) => {
+export const getDatabase = async (id: string,appwriteEndpoint,appwriteProjectId) => {
+  const client = new Client()
+  .setEndpoint(appwriteEndpoint)
+  .setProject(appwriteProjectId);
+
+  const database = new Databases(client);
   const promise = await database.getDocument(
     "appwrite-flexiDB",
     "flexiDB-databses",

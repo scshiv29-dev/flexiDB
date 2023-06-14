@@ -43,7 +43,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, []);
   const login = async (email: string, password: string) => {
-    const res: any = await accLogin(email,password);
+    const res: any = await accLogin(email,password,process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
+    
     if (res) {
       setIsLoggedIn(true);
     }

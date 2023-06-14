@@ -45,9 +45,7 @@ fi
 
 # Start Traefik container
 echo "Starting Traefik container..."
-docker run -d -p 8080:8080 -p 80:80 \
--v $PWD/traefik.yml:/etc/traefik/traefik.yml \
--v /var/run/docker.sock:/var/run/docker.sock \ traefik:v2.10
+docker run -d -p 8080:8080 -p 80:80 -v $PWD/traefik.yml:/etc/traefik/traefik.yml -v /var/run/docker.sock:/var/run/docker.sock \ traefik:v2.10
 
 # Open ports 9000-9100
 echo "Opening ports 9000-9100..."
@@ -73,8 +71,8 @@ randomUserID=$(generateUserID)
 echo "Generated random USERID: $randomUserID"
 printf "USER_ID=%s\n" "$randomUserID" >> .env
 
-promptCustomValue "APPWRITE_URL"
-promptCustomValue "APPWRITE_PROJECT_ID"
+promptCustomValue "NEXT_PUBLIC_APPWRITE_URL"
+promptCustomValue "NEXT_PUBLIC_APPWRITE_PROJECT_ID"
 promptCustomValue "APPWRITE_API_KEY"
 
 
@@ -108,7 +106,7 @@ if [[ -z $domain ]]; then
   domain=$ip
 else
   # Add Traefik configuration for the domain
-  echo "
+  printf "
 http:
   routers:
     $domain:

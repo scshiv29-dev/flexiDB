@@ -5,7 +5,7 @@
 import { getDatabases } from "@flexidb/appwrite";
 
 export async function GET() {
-  const databases = await getDatabases();
+  const databases = await getDatabases(process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
   console.log("api log", databases);
   return JSON.stringify(databases.documents);
 }

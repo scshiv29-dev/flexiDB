@@ -10,6 +10,8 @@ export async function POST(request: Request) {
     tag,
     ENV: envVariables,
     PORT: port,
+    appwriteEndpoint:process.env.NEXT_PUBLIC_APPWRITE_URL,
+    appwriteProjectId:process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID
   });
   return new Response(JSON.stringify(containerId), {
     headers: {

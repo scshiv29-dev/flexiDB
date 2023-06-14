@@ -12,8 +12,10 @@ export async function pullAndCreateContainer(dbInfo: {
   tag: string;
   ENV: EnvVariable[];
   PORT: number;
+  appwriteEndpoint: string;
+  appwriteProjectId: string;
 }): Promise<string> {
-  const { dockerImage, tag, ENV, PORT } = dbInfo;
+  const { dockerImage, tag, ENV, PORT,appwriteEndpoint,appwriteProjectId } = dbInfo;
   const selectedTag = tag; // Select the first tag
   console.log(`Selected tag: ${selectedTag}`);
   console.log(`Pulling image: ${dockerImage}:${selectedTag}`);
@@ -59,7 +61,9 @@ export async function pullAndCreateContainer(dbInfo: {
     dbInfo.name,
     dbInfo.dockerImage,
     dbInfo.tag,
-    containerId
+    containerId,
+    appwriteEndpoint,
+    appwriteProjectId
   );
   return dbres.$id;
 }

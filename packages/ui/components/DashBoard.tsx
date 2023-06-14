@@ -8,7 +8,7 @@ export default function DashBoard() {
   const [dblist, setDblist] = useState<any>();
 
   useEffect(() => {
-    getDatabases().then((res) => setDblist(res.documents));
+    getDatabases(process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID).then((res) => setDblist(res.documents));
   }, []);
 
   return (

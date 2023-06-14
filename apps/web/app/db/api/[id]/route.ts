@@ -17,7 +17,7 @@ export async function GET(
 ) {
   const id = params.id;
 
-  const db = await getDatabase(id);
+  const db = await getDatabase(id,process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
   return new Response(JSON.stringify(db));
 }
@@ -32,7 +32,7 @@ export async function POST(
 ) {
   const id = params.id;
   const { func } = await request.json();
-  const db = await getDatabase(id);
+  const db = await getDatabase(id,process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
   const containerId = db.containerId;
   if (func === "start") {
     const d = startContainer(containerId);
@@ -55,10 +55,10 @@ export async function DELETE(
   }
 ) {
   const id = params.id;
-  const db = await getDatabase(id);
+  const db = await getDatabase(id,process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
   const containerId = db.containerId;
   const d = deleteContainer(containerId);
-  const dd = await deleteDatabase(id);
+  const dd = await deleteDatabase(id,process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
   return new Response(JSON.stringify(dd));
 }
 
@@ -72,7 +72,7 @@ export async function PUT(
 ) {
   console.log("put");
   const id = params.id;
-  const db = await getDatabase(id);
+  const db = await getDatabase(id,process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
   const { ENV } = await request.json();
   console.log(ENV);
   if (ENV) {

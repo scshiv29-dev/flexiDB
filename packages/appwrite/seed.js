@@ -3,8 +3,8 @@ const dotenv =require( 'dotenv');
 dotenv.config();
 
 const client = new Client()
-    .setEndpoint(process.env.APPWRITE_URL||"") // Your Appwrite Endpoint
-    .setProject(process.env.APPWRITE_PROJECT_ID||"")                // Your project ID
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_URL||"") // Your Appwrite Endpoint
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID||"")                // Your project ID
     .setKey(process.env.APPWRITE_API_KEY || "");         // Your secret API key
 
 const db= new Databases(client);    
