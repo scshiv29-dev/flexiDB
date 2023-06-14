@@ -12,7 +12,7 @@ export default function DBstat(dbinfo: any) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        
         setStatus(data);
       });
   });

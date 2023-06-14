@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 
 export const accLogin = async (email: string, password: string,appwriteEndpoint,appwriteProjectId) => {
 
-  console.log(appwriteEndpoint,appwriteProjectId);
+  
   const client = new Client()
   .setEndpoint(appwriteEndpoint)
   .setProject(appwriteProjectId);
@@ -17,7 +17,6 @@ export const accLogin = async (email: string, password: string,appwriteEndpoint,
 };
 
 export const getDatabases = async (appwriteEndpoint,appwriteProjectId) => {
-  console.log(appwriteEndpoint,appwriteProjectId);
 
   const client = new Client()
   .setEndpoint(appwriteEndpoint)

@@ -54,6 +54,7 @@ export async function DELETE(
     params: { id: string };
   }
 ) {
+  console.log("delete");
   const id = params.id;
   const db = await getDatabase(id,process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
   const containerId = db.containerId;

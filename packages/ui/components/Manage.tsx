@@ -7,6 +7,7 @@ export default function Manage({ id, DBLIST }: any) {
   const [env, setEnv] = useState<any>({});
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
   const [serverDB, setServerDB] = useState<any>({});
+  const [hostConfig,setHostConfig]=useState<any>({})
   const router = useRouter();
 
   const getENVFromDockerImage = (dockerImage: string): string[] | undefined => {
@@ -88,6 +89,7 @@ export default function Manage({ id, DBLIST }: any) {
       const data = await response.json();
       console.log(data);
       setContainerInfo(data);
+      setHostConfig(data.HostConfig);
       const ENVs = getENVFromDockerImage(data.Config.Image.split(":")[0]);
       const contENV = convertArrayToObject(data.Config.Env);
       const filteredENV = filterEnvByKeys(contENV, ENVs);
@@ -116,56 +118,83 @@ export default function Manage({ id, DBLIST }: any) {
       console.error("Error fetching data:", error);
     }
   };
-
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`/db/api/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      router.push("/");
+    } catch (error) {
+      console.error("Error deleting", error);
+    }
+  };
   useEffect(() => {
     fetchData();
-  });
+  },);
 
   return loading ? (
     <div>Loading</div>
   ) : (
     <div className="border border-white rounded-lg p-4 ">
       <h1 className="text-2xl font-bold mb-4">Manage Database</h1>
-      <div className="flex flex-row gap-x-4">
+      <div className="flex flex-row gap-x-4 space-x-2">
         <h2 className="text-lg font-bold mb-2">Name</h2>
         <p>{containerInfo?.Name}</p>
       </div>
-      <div className="flex flex-row gap-x-4">
+      <div className="flex flex-row gap-x-4 space-x-2">
         <h2 className="text-lg font-bold mb-2">Status</h2>
         <p>{containerInfo?.State?.Status}</p>
       </div>
-      <div className="flex flex-row gap-x-4">
+      <div className="flex flex-row gap-x-4 space-x-2">
         <h2 className="text-lg font-bold mb-2">Type</h2>
         <p>{serverDB?.type}</p>
       </div>
-      <div className="flex flex-row gap-x-4">
+      <div className="flex flex-row gap-x-4 space-x-2">
         <h2 className="text-lg font-bold mb-2">Tag / Version</h2>
         <p>{serverDB?.tag}</p>
       </div>
+      <div className="flex flex-row gap-x-4 space-x-2">
+        <h2 className="text-lg font-bold mb-2">Host</h2>
+        <p>{JSON.stringify(hostConfig.PortBindings)}</p>
+      </div>
 
       <h2 className="text-lg font-bold mb-2">Environment Variables</h2>
+      <div  className="flex flex-row gap-x-4 space-x-8">
+      <table>
       {env &&
         Object.keys(env).map((key: string) => (
-          <div key={key} className="flex flex-row gap-x-4">
+          
+            <tr>
+              <td>
             <label htmlFor={key} className="mb-1">
               {key}
             </label>
+            </td>
+            <td>
             <input
               type="text"
               name={key}
               id={key}
               value={env[key]}
               onChange={handleEnvChange}
-              readOnly={containerInfo?.State?.Status === "running"}
+              readOnly
               className={`border border-gray-400 rounded px-2 py-1 w-full sm:w-64 ${
                 containerInfo?.State?.Status === "running"
                   ? "bg-base-500 text-white disabled"
                   : "bg-base-500 text-white"
               }`}
             />
-          </div>
+            </td>
+            </tr>
+          
         ))}
-
+     
+    </table>
+    </div>
       <div className="space-x-2">
         <button
           className={`btn
@@ -200,13 +229,12 @@ export default function Manage({ id, DBLIST }: any) {
             Start
           </button>
         )}
-
-        {containerInfo && containerInfo?.State?.Status === "stopped" && (
+          {containerInfo && containerInfo?.State?.Status === "exited" && (
           <button
-            className="mt-2 px-4 py-2 rounded bg-green-500 text-white"
-            onClick={() => console.log("Start")}
+            className="btn btn-error"
+            onClick={() => handleDelete()}
           >
-            Start
+            Delete
           </button>
         )}
       </div>

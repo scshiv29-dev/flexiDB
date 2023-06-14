@@ -15,7 +15,7 @@ export default function Login() {
     setForm({ ...form, [formFeild]: e.target?.value });
   };
   const { login } = useAuth();
-  console.log(process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID)
+  
 
   return (
     <section>
