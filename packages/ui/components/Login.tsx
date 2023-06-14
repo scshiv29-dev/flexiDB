@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { useAuth } from "./AuthContext";
 export default function Login() {
   const [form, setForm] = useState({
@@ -15,7 +14,9 @@ export default function Login() {
     e.preventDefault();
     setForm({ ...form, [formFeild]: e.target?.value });
   };
-  const { isLoggedIn, login, logout } = useAuth();
+  const { login } = useAuth();
+  console.log(process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID)
+
   return (
     <section>
       <div className="grid grid-cols-1 min-h-screen lg:grid-cols-2">
@@ -163,7 +164,7 @@ export default function Login() {
                 <button
                   type="button"
                   className="inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
-                  onClick={() => login(form.email, form.password)}
+                  onClick={() => login(form.email, form.password,process.env.NEXT_PUBLIC_APPWRITE_URL as string,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID as string)}
                 >
                   Login
                   <svg

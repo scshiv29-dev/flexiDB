@@ -12,7 +12,7 @@ import { accLogin } from "@flexidb/appwrite";
 // Define the shape of the context value
 interface AuthContextValue {
   isLoggedIn: boolean;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string,appwriteUrl:string,appwriteprojectID:string) => void;
   logout: () => void;
 }
 
@@ -42,8 +42,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     }
   }, []);
-  const login = async (email: string, password: string) => {
-    const res: any = await accLogin(email,password,process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
+  const login = async (email: string, password: string,appwriteUrl: string,appwriteprojectID:string) => {
+    const res: any = await accLogin(email,password,appwriteUrl,appwriteprojectID);
     
     if (res) {
       setIsLoggedIn(true);

@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 
 export default function DashBoard() {
   const [dblist, setDblist] = useState<any>();
-
+  console.log(process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID)
   useEffect(() => {
     getDatabases(process.env.NEXT_PUBLIC_APPWRITE_URL,process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID).then((res) => setDblist(res.documents));
   }, []);
