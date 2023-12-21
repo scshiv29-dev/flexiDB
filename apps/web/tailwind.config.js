@@ -1,1 +1,0 @@
-module.exports = require("@flexidb/config/tailwind.config.js");
